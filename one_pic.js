@@ -2,84 +2,12 @@ const $ = $j1110;
 const dom = document.querySelector(".r_relation");
 const myChart = echarts.init(dom);
 myChart.showLoading();
-var option = {
-	title: {
-		text: '这就是关系',
-		subtext: 'Default layout',
-		top: 'bottom',
-		left: 'right',
-	},
-	tooltip: {},
-	legend: [{
-		//selectedMode: 'single',
-		data: categories.map(function(a) {
-			return a.name;
-		})
-	}],
-	animationDuration: 1500,
-	animationEasingUpdate: 'quinticInOut',
-	series: [{
-		name: 'Les Miserables',
-		type: 'graph',
-		layout: 'none',
-		symbol: "image://img/T1orhyB5ZT1RCvBVdK.jpg",
-		//edgeSymbol:["circle","arrow"],
-		data: graph.nodes,
-		links: graph.links,
-		categories: categories,
-		roam: true,
-		focusNodeAdjacency: true,
-		itemStyle: {
-			borderColor: '#fff',
-			borderWidth: 1,
-			shadowBlur: 10,
-			shadowColor: 'rgba(0, 0, 0, 0.3)'
-		},
-		label: {
-			position: 'right',
-			formatter: '{b}',
-			rich: {
-				a: {
-					color: 'red',
-					lineHeight: 10
-				},
-				b: {
-					backgroundColor: {
-						image: 'xxx/xxx.jpg'
-					},
-					height: 40
-				},
-				x: {
-					fontSize: 18,
-					fontFamily: 'Microsoft YaHei',
-					borderColor: '#449933',
-					borderRadius: 4
-				},
-			}
-		},
-		lineStyle: {
-			color: 'source',
-			curveness: 0.3
-		},
-		markLine: {
-			symbol: "circle",
-			symbolSize: 120,
-			label: {
-				show: true,
-				formatter: "测试测试markline"
-			}
-		},
-		emphasis: {
-			//鼠标移上线的样式
-			lineStyle: {
-				width: 10
-			}
-		}
-	}]
-};
-myChart.hideLoading();
 myChart.setOption(option);
-
+myChart.hideLoading();
+// 处理点击事件
+myChart.on('click', function(params) {
+	console.log(params);
+});
 /**
  * 菜单
  * @param {type} dom = 元素
@@ -117,9 +45,9 @@ function menu(dom, level, data_3, data_4) {
 			menu.append(ul_start + li + ul_end);
 			//精确标
 			a = $(".r_menu_level3 .r_menu_level_li>a");
-			if(a){
+			if (a) {
 				a.css({
-					"transform": "rotateZ("+ (deg/2 - 0.5) +"deg)"
+					"transform": "rotateZ(" + (deg / 2 - 0.5) + "deg)"
 				});
 			}
 			break;
@@ -130,7 +58,8 @@ function menu(dom, level, data_3, data_4) {
 			deg = data_3 ? (90 / len) : 0;
 			//组合3级
 			for (i in data_3) {
-				li += '<li class="r_menu_level_li posa" title="' + data_3[i].name + '" style="transform: rotateZ(-' + (90 - deg * i) +'deg);">' +
+				li += '<li class="r_menu_level_li posa" title="' + data_3[i].name + '" style="transform: rotateZ(-' + (90 - deg * i) +
+					'deg);">' +
 					'<div href="' + data_3[i].url + '">' +
 					'<i class="fa ' + data_3[i].symbol + '"></i></div>' +
 					'</li>'
@@ -140,9 +69,9 @@ function menu(dom, level, data_3, data_4) {
 			menu.append(ul_start + li + ul_end);
 			//精确标
 			a = $(".r_menu_level3 .r_menu_level_li>div");
-			if(a){
+			if (a) {
 				a.css({
-					"transform": "rotateZ("+ (deg/2 - 0.5) +"deg)"
+					"transform": "rotateZ(" + (deg / 2 - 0.5) + "deg)"
 				});
 			}
 			//四级变量获取
@@ -151,7 +80,8 @@ function menu(dom, level, data_3, data_4) {
 			deg = data_4 ? (90 / len) : 0;
 			//组合4级
 			for (i in data_4) {
-				li += '<li class="r_menu_level_li posa" title="' + data_4[i].name + '" style="transform: rotateZ(-' + (90 - deg * i) +'deg);">' +
+				li += '<li class="r_menu_level_li posa" title="' + data_4[i].name + '" style="transform: rotateZ(-' + (90 - deg * i) +
+					'deg);">' +
 					'<div href="' + data_4[i].url + '">' +
 					'<i class="fa ' + data_4[i].symbol + '"></i></div>' +
 					'</li>'
@@ -161,9 +91,9 @@ function menu(dom, level, data_3, data_4) {
 			menu.append(ul_start + li + ul_end);
 			//精确标
 			a = $(".r_menu_level4 .r_menu_level_li>div");
-			if(a){
+			if (a) {
 				a.css({
-					"transform": "rotateZ("+ (deg/2 - 0.5) +"deg)"
+					"transform": "rotateZ(" + (deg / 2 - 0.5) + "deg)"
 				});
 			}
 			break;
