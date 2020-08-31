@@ -1,0 +1,51 @@
+@font-face{
+	font-family:DS-Digital;
+	src:url('../fonts/ds-digi.eot');
+	src:url('../fonts/ds-digi.eot?#iefix') format('embedded-opentype'),url('../fonts/DS-DIGI.TTF') format('truetype');
+}
+@font-face{
+	font-family:Segoe UI;
+	src:url('../fonts/segoeui.eot');
+	src:url('../fonts/segoeui.eot?#iefix') format('embedded-opentype'),url('../fonts/segoeui.woff') format('woff'),url('../fonts/segoeui.ttf') format('truetype');
+}
+@font-face{
+	font-family:Segoe UI Light;
+	src:url('../fonts/segoeuil.eot');
+	src:url('../fonts/segoeuil.eot?#iefix') format('embedded-opentype'),url('../fonts/segoeuil.woff') format('woff'),url('../fonts/segoeuil.ttf') format('truetype');
+}
+@font-face{
+	font-family:AgencyFB;
+	src:url('../fonts/AgencyFB.ttf');
+}
+@font-face{
+	font-family:DISPLAY FREE TFB;
+	src:url('../fonts/DISPLAYFREETFB.TTF');
+}
+@font-face{
+	font-family:DINCond-Regular;
+	src:url('../fonts/DINCond-Regular.otf');
+}
+@font-face{
+	font-family:msyh;
+	src:url('../fonts/msyh.ttf');
+}
+@font-face{
+	font-family:msyhbd;
+	src:url('../fonts/msyhbd.ttf');
+}
+@font-face{
+	font-family:Square721 Ex BT;
+	src:url('../fonts/SQR721E.TTF');
+}
+@font-face{
+	font-family:Agency FB;
+	src:url('../fonts/AGENCYR.TTF');
+}
+@font-face{
+	font-family:JIANLAOSONG;
+	src:url('../fonts/weiruanjianlaosong.TTF');
+}
+@font-face{
+	font-family:04b_08;
+	src:url('../fonts/04B_08.TTF');
+}
