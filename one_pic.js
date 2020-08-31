@@ -2,12 +2,9 @@ const $ = $j1110;
 const dom = document.querySelector(".r_relation");
 const myChart = echarts.init(dom);
 myChart.showLoading();
+
 myChart.setOption(option);
 myChart.hideLoading();
-// 处理点击事件
-myChart.on('click', function(params) {
-	console.log(params);
-});
 /**
  * 菜单
  * @param {type} dom = 元素
@@ -34,7 +31,7 @@ function menu(dom, level, data_3, data_4) {
 			deg = data_3 ? (90 / len) : 0;
 			for (i in data_3) {
 				li += '<li class="r_menu_level_li posa" title="' + data_3[i].name + '" style="transform: rotateZ(-' + (90 - deg * (
-						Number(i) + 1)) + 'deg);">' +
+						Number(i) + 1)) + 'deg);" onclick = "li_click()">' +
 					'<a href="' + data_3[i].url + '">' +
 					'<i class="fa ' + data_3[i].symbol + '"></i></a>' +
 					'</li>'
@@ -59,7 +56,7 @@ function menu(dom, level, data_3, data_4) {
 			//组合3级
 			for (i in data_3) {
 				li += '<li class="r_menu_level_li posa" title="' + data_3[i].name + '" style="transform: rotateZ(-' + (90 - deg * i) +
-					'deg);">' +
+					'deg);" onclick = "li_click()">' +
 					'<div href="' + data_3[i].url + '">' +
 					'<i class="fa ' + data_3[i].symbol + '"></i></div>' +
 					'</li>'
@@ -81,7 +78,7 @@ function menu(dom, level, data_3, data_4) {
 			//组合4级
 			for (i in data_4) {
 				li += '<li class="r_menu_level_li posa" title="' + data_4[i].name + '" style="transform: rotateZ(-' + (90 - deg * i) +
-					'deg);">' +
+					'deg);" onclick = "li_click()">' +
 					'<div href="' + data_4[i].url + '">' +
 					'<i class="fa ' + data_4[i].symbol + '"></i></div>' +
 					'</li>'
@@ -102,16 +99,20 @@ function menu(dom, level, data_3, data_4) {
 	}
 }
 
+/**
+	* 方法执行
+	* */
+
 menu(".r_menu", 4, [{
-	name: "测试01",
+	name: "测试1",
 	symbol: "fa-link",
 	url: "01"
 }, {
-	name: "测试02",
+	name: "测试2",
 	symbol: "fa-phone",
 	url: "02"
 }, {
-	name: "测试03",
+	name: "测试3",
 	symbol: "fa-info",
 	url: "03"
 }], [{
@@ -131,3 +132,18 @@ menu(".r_menu", 4, [{
 	symbol: "fa-plane",
 	url: "004"
 }]);
+
+/**
+	* 操作
+	* */
+
+// 处理点击事件
+myChart.on('click', function(params) {
+	console.log(params);
+	$(".r_menu").toggleClass("r_menu_hide");
+});
+
+function li_click(){
+	myChart.clear();
+	myChart.setOption(option);
+}

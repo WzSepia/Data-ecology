@@ -140,7 +140,7 @@
 	color: #798a93;
 	margin-top: 5px;
 	transform-origin: left bottom;
-	pointer-events: none;
+	border-top-right-radius: 100%;
 }
 
 /**

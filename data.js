@@ -128,21 +128,26 @@ var categories = [{
 var option = {
 	title: {
 		text: '数据生态',
+		textAlign: 'center',
+		left: "center",
+		textStyle: {
+			color: "#ffffff",
+		}
 	},
 	tooltip: {
 		formatter: '{b}: {c}<br />',
-		backgroundColor: 'rgba(50,50,50,1)',
+		backgroundColor: 'rgba(0,0,0,1)',
 		borderColor: '#333',
 	},
-	legend: [{
-		// selectedMode: 'single',
-		data: categories.map(x => x.name),
-		// icon: 'circle'
-	}],
+	// legend: [{
+	// 	// selectedMode: 'single',
+	// 	data: categories.map(x => x.name),
+	// 	// icon: 'circle'
+	// }],
 	series: [{
 		type: 'graph',
 		layout: 'force',
-		//symbol:"image://./img/1.jpg",
+		symbol: "image://./img/1.jpg",
 		symbolSize: 58,
 		draggable: false,
 		roam: true,
@@ -150,13 +155,22 @@ var option = {
 		categories: categories,
 		edgeSymbol: ['circle', 'arrow'],
 		edgeLabel: {
-			normal: {
-				show: true,
-				textStyle: {
-					fontSize: 12
+			show: true,
+			fontSize: 12,
+			formatter: [
+				'{a|这a}',
+				'{b|这b}'
+			].join('\n'),
+			rich: {
+				a: {
+					color: 'red',
+					lineHeight: 16
 				},
-				formatter(x) {
-					return x.data.name;
+				b: {
+					backgroundColor: {
+						image: 'xxx/xxx.jpg'
+					},
+					height: 40
 				}
 			}
 		},
