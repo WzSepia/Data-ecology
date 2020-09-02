@@ -89,26 +89,26 @@ data.links.forEach(link => {
 	link.label = {
 		position: "middle",
 		verticalAlign: "middle",
-		padding: 10,
+		padding: 4,
 		lineHeight: 5,
 		align: 'center',
 		fontSize: 14,
 		backgroundColor: "#eee",
 	};
 
-	if (link.name === '参股') {
-		link.lineStyle = {
-			color: color2
-		}
-	} else if (link.name === '董事') {
-		link.lineStyle = {
-			color: color1
-		}
-	} else if (link.name === '法人') {
-		link.lineStyle = {
-			color: color3
-		}
-	}
+	// if (link.name === '参股') {
+	// 	link.lineStyle = {
+	// 		color: color2
+	// 	}
+	// } else if (link.name === '董事') {
+	// 	link.lineStyle = {
+	// 		color: color1
+	// 	}
+	// } else if (link.name === '法人') {
+	// 	link.lineStyle = {
+	// 		color: color3
+	// 	}
+	// }
 });
 
 var categories = [{
@@ -127,7 +127,7 @@ var categories = [{
 
 var option = {
 	title: {
-		text: '数据生态',
+		text: '',
 		textAlign: 'center',
 		left: "center",
 		textStyle: {
@@ -135,7 +135,7 @@ var option = {
 		}
 	},
 	tooltip: {
-		formatter: '{b}: {c}<br />',
+		formatter: '{b}<br />',
 		backgroundColor: 'rgba(0,0,0,1)',
 		borderColor: '#333',
 	},
@@ -149,34 +149,38 @@ var option = {
 		layout: 'force',
 		symbol: "image://./img/1.jpg",
 		symbolSize: 58,
-		draggable: false,
+		draggable: true,
 		roam: true,
-		focusNodeAdjacency: false,
+		focusNodeAdjacency: true,
 		categories: categories,
 		edgeSymbol: ['circle', 'arrow'],
 		edgeLabel: {
 			show: true,
 			fontSize: 12,
 			formatter: [
-				'{a|这a}',
-				'{b|这b}'
+				'{a|关系}',
+				//'{b|这b}'
 			].join('\n'),
 			rich: {
 				a: {
-					color: 'red',
+					color: 'black',
 					lineHeight: 16
 				},
 				b: {
+					color: "black",
 					backgroundColor: {
 						image: 'xxx/xxx.jpg'
 					},
-					height: 40
+					//height: 40
 				}
 			}
 		},
 		itemStyle: {
 			borderColor: "#f00",
 			borderWidth: 4
+		},
+		lineStyle: {
+			color: "#ffffff",
 		},
 		markPoint: {
 			symbol: "pin",

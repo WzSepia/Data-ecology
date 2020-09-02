@@ -3209,3 +3209,50 @@ var categories = [{
 }, {
 	"name": "类目8"
 }]
+
+option = {
+	title: {
+		text: 'Les Miserables',
+		subtext: 'Default layout',
+		top: 'bottom',
+		left: 'right'
+	},
+	tooltip: {},
+	// legend: [{
+	// 	// selectedMode: 'single',
+	// 	data: categories.map(function(a) {
+	// 		return a.name;
+	// 	})
+	// }],
+	animationDuration: 1500,
+	animationEasingUpdate: 'quinticInOut',
+	series: [{
+		name: 'Les Miserables',
+		type: 'graph',
+		layout: 'none',
+		data: graph.nodes,
+		links: graph.links,
+		categories: categories,
+		roam: true,
+		focusNodeAdjacency: true,
+		itemStyle: {
+			borderColor: '#fff',
+			borderWidth: 1,
+			shadowBlur: 10,
+			shadowColor: 'rgba(0, 0, 0, 0.3)'
+		},
+		label: {
+			position: 'right',
+			formatter: '{b}'
+		},
+		lineStyle: {
+			color: 'source',
+			curveness: 0.3
+		},
+		emphasis: {
+			lineStyle: {
+				width: 10
+			}
+		}
+	}]
+};

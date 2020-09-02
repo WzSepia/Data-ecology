@@ -1,35 +1,45 @@
 @charset "utf-8";
 
+body {
+	background-image: linear-gradient(to bottom left, #2e3b4e, #0d0d13 52%, #0d0d13);
+}
+
 .relation {
 	width: 100%;
 	height: 100%;
-	background: radial-gradient(rgba(0, 0, 0, 1), rgba(12, 123, 122, 0.5), #283344);
+	background-image: url(img/bottom-bg.png);
+	background-repeat: no-repeat;
+	background-size: auto 289px;
+	background-position: center bottom;
 	overflow: hidden;
 }
 
 .r_title {
 	width: 100%;
-	height: 60px;
+	height: 240px;
 	text-align: center;
-	font-size: 50px;
+	font-size: 100px;
 	color: #00AAFF;
-	font-family: "华文行楷";
+	font-family: "华文彩云";
 	text-shadow: 0 0 2px #002222;
 	cursor: auto;
 	user-select: none;
-	top: -50px;
+	/* top: -50px; */
 	transition: all 0.5s linear 0s;
 	z-index: 2;
+	background-image: url(./img/top-bg.png);
+	background-size: 100% 240px;
 }
 
-.r_title:hover {
+/* .r_title:hover {
 	top: 0px;
-}
+} */
 
 .r_relation {
 	width: 100%;
 	height: 90%;
 	bottom: 0;
+	z-index: 3;
 }
 
 .r_menu {
@@ -44,12 +54,13 @@
 }
 
 .r_menu_bg {
-	width: 780px;
-	height: 780px;
-	right: -390px;
-	bottom: -390px;
-	border: 10px dashed #fff;
+	width: 820px;
+	height: 820px;
+	right: -410px;
+	bottom: -410px;
 	border-radius: 50%;
+	background-image: url(./img/circle-border.png);
+	background-size: cover;
 	animation: rotate360 100s linear 0s infinite;
 }
 
@@ -64,6 +75,34 @@
 	z-index: 4;
 }
 
+.r_menu_active_li {
+	width: 50%;
+	height: 50%;
+	margin-left: 50%;
+	border: 1px solid #000;
+	border-top-right-radius: 100%;
+	transform: rotateZ(-45deg);
+	transform-origin: left bottom;
+	cursor: pointer;
+}
+
+.r_menu_active_li:nth-child(2) {
+	transform: rotateZ(-90deg);
+}
+
+.r_menu_active_li:hover {
+	box-shadow: 0 0 4px 2px #000;
+}
+
+.r_menu_active_li p {
+	width: 100%;
+	height: 100%;
+	padding-top: 6px;
+	border-top-right-radius: 100%;
+	transform: rotateZ(15deg);
+	transform-origin: left bottom;
+}
+
 .r_menu_doc {
 	width: 610px;
 	height: 610px;
@@ -73,6 +112,8 @@
 	border: 6px solid #000;
 	background-color: #d7dde4;
 	border-radius: 50%;
+	background-image: url(./img/circle-1.png);
+	background-size: cover;
 }
 
 .r_menu_docp {
@@ -84,12 +125,12 @@
 }
 
 .r_menu_docp dt {
-	font-size: 17px;
+	font-size: 20px;
 	text-align: center;
 }
 
 .r_menu_docp dd {
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .r_menu_level3 {
@@ -98,8 +139,11 @@
 	right: -340px;
 	bottom: -340px;
 	z-index: 2;
-	border: 6px solid #000;
+	border: 5px solid #000;
 	border-radius: 50%;
+	transition: all .5s linear .1s;
+	transform: rotateZ(90deg);
+	transform-origin: center center;
 	overflow: hidden;
 }
 
@@ -109,38 +153,82 @@
 	right: -375px;
 	bottom: -375px;
 	z-index: 1;
-	border: 6px solid #000000;
+	border: 5px solid #000000;
 	border-radius: 100%;
+	transition: all .5s linear .2s;
+	transform: rotateZ(90deg);
+	transform-origin: center center;
 	overflow: hidden;
+}
+
+.r_menu_level_rotate{
+	transform: rotateZ(0deg);
 }
 
 .r_menu_level_li {
 	width: 50%;
 	height: 50%;
 	margin-left: calc(50% - 2px);
-	border: 1px solid #000000;
+	border-left: 1px solid #6c7b86;
 	border-top-right-radius: 100%;
 	background-color: #def5f8;
 	transform-origin: left bottom;
+	transition: all .1s linear 0s;
 	cursor: pointer;
 	overflow: hidden;
 }
 
+.r_menu_level_li_active {
+	background-color: #ff7963;
+}
+
+.r_menu_level_li_active i{
+	color: #FFFFFF;
+}
+
 .r_menu_level_li:hover {
-	background-color: #FF6600;
+	box-shadow: 0 0 6px 2px #000000;
 }
 
-.r_menu_level_li:hover .r_menu_level_li>div{
-	pointer-events: initial;
-}
-
-.r_menu_level_li>div{
+.r_menu_level_li>div {
 	width: 100%;
 	height: 100%;
 	color: #798a93;
 	margin-top: 5px;
 	transform-origin: left bottom;
 	border-top-right-radius: 100%;
+}
+
+.r_left_con {
+	top: 50%;
+	left: 20px;
+	width: 400px;
+	height: 620px;
+	margin-top: -310px;
+	background-image: url(./img/border-left.png);
+	background-size: cover;
+	background-position: 0;
+	-webkit-animation: leftflyin 1s;
+	animation: leftflyin 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	pointer-events: none;
+}
+
+.r_right_con {
+	top: 50%;
+	right: 20px;
+	width: 400px;
+	height: 620px;
+	margin-top: -310px;
+	background-image: url(./img/border-right.png);
+	background-size: cover;
+	background-position: 100%;
+	-webkit-animation: rightflyin 1s;
+	animation: rightflyin 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	pointer-events: none;
 }
 
 /**
