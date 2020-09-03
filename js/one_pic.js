@@ -5,8 +5,8 @@
  * */
 
 /**
-	* 页面方法
-	* */
+ * 页面方法
+ * */
 var page = {
 	init() {
 		methods.init();
@@ -14,27 +14,28 @@ var page = {
 }
 
 /**
-	* 元素变量
-	* */
+ * 元素变量
+ * */
 var dom = {
-	el:document.querySelector(".r_relation"),
+	el: document.querySelector(".r_relation"),
 }
 
 /**
-	* 变量对象
-	* */
+ * 变量对象
+ * */
 var render = {
 	myChart: echarts.init(dom.el),
 	//当前操作纪实
 	current: {
 		//图标元素索引
-		dataIndex: null
+		dataIndex: null,
+		echarts_name: null,
 	},
 }
 
 /**
-	* option
-	* */
+ * option
+ * */
 var option = {
 	legend: {
 		show: false,
@@ -58,7 +59,7 @@ var option = {
 		roam: true,
 		//focusNodeAdjacency: true,
 		categories: categories,
-		symbolSize: 60,
+		symbolSize: 55,
 		edgeSymbol: ['', 'arrow'],
 		edgeSymbolSize: 6,
 		//标签。
@@ -66,27 +67,38 @@ var option = {
 			show: true,
 			position: "middle",
 			align: "center",
-			formatter: [
-				'{a|关系}'
-			].join('\n'),
-			rich: {
-				a: {
-					color: "#000000",
-					fontSize: 12,
-					fontWeight: "bold",
-					verticalAlign: "middle",
-					lineHeight: 1,
-					padding: 10,
-					borderColor: "#ffffff",
-					borderWidth: 0,
-					borderRadius: 4,
-					backgroundColor: '#ffffff',
-				}
-			}
+			color: "#000000",
+			fontSize: 12,
+			fontWeight: "bold",
+			verticalAlign: "middle",
+			lineHeight: 1,
+			padding: 10,
+			borderColor: "#ffffff",
+			borderWidth: 0,
+			borderRadius: 4,
+			backgroundColor: '#ffffff',
+			formatter: (params) => {
+				//console.log(params.data.name);
+				return params.data.name ? params.data.name : "关系";
+			}, //['{a|{c}}'].join('\n'),
+			// rich: {
+			// 	a: {
+			// 		color: "#000000",
+			// 		fontSize: 12,
+			// 		fontWeight: "bold",
+			// 		verticalAlign: "middle",
+			// 		lineHeight: 1,
+			// 		padding: 10,
+			// 		borderColor: "#ffffff",
+			// 		borderWidth: 0,
+			// 		borderRadius: 4,
+			// 		backgroundColor: '#ffffff',
+			// 	}
+			// }
 		},
 		//图形样式。
 		itemStyle: {
-			color:"",
+			color: "",
 			borderColor: "rgba(12,12,12,0.5)",
 			borderWidth: 0
 		},
@@ -112,7 +124,7 @@ var option = {
 			//节点之间的斥力因子。
 			repulsion: 2000,
 			//边的两个节点之间的距离，这个距离也会受repulsion
-			edgeLength: 200,
+			//edgeLength: 200,
 			//是否显示布局的迭代动画
 			layoutAnimation: true,
 			//减缓节点的移动速度。取值范围 0 到 1。
@@ -130,8 +142,8 @@ var option = {
 };
 
 /**
-	* 文档方法集合
-	* */
+ * 文档方法集合
+ * */
 var methods = {
 	//==============页面初始加载===============
 	init() {
@@ -140,6 +152,7 @@ var methods = {
 		render.myChart.hideLoading();
 		//图表添加点击
 		render.myChart.on('click', function(params) {
+			render.current.echarts_name = params.name;
 			let name = params.name;
 			let x = params.event.offsetX;
 			let y = params.event.offsetY;
@@ -221,8 +234,9 @@ var methods = {
 				len = data_3 ? data_3.length : 0;
 				deg = data_3 ? (90 / len) : 0;
 				for (i in data_3) {
-					li += '<li class="r_menu_level_li posa" title="' + data_3[i].name + '" style="transform: rotateZ(-' + (90 - deg * (
-							Number(i) + 1)) + 'deg);" onclick = "methods.li_click(this)">' +
+					li += '<li class="r_menu_level_li posa" title="' + data_3[i].name + '" style="transform: rotateZ(-' + (90 - deg *
+							(
+								Number(i) + 1)) + 'deg);" onclick = "methods.li_click(this)">' +
 						'<a href="' + data_3[i].url + '">' +
 						'<i class="fa ' + data_3[i].symbol + '"></i></a>' +
 						'</li>'
@@ -247,8 +261,9 @@ var methods = {
 				//组合3级
 				for (i in data_3) {
 					li += '<li class="r_menu_level_li posa" title_tip="' + data_3[i].name +
-						'" onmouseover="methods.li_mouseup(this)"  onmouseout="methods.li_mouseout(this)" style="transform: rotateZ(-' + (90 - deg * i) +
-						'deg);" onclick = "li_click(this)">' +
+						'" onmouseover="methods.li_mouseup(this)"  onmouseout="methods.li_mouseout(this)" style="transform: rotateZ(-' +
+						(90 - deg * i) +
+						'deg);" onclick = "methods.li_click(this)">' +
 						'<div href="' + data_3[i].url + '">' +
 						'<i class="fa ' + data_3[i].symbol + '"></i></div>' +
 						'</li>'
@@ -270,8 +285,9 @@ var methods = {
 				//组合4级
 				for (i in data_4) {
 					li += '<li class="r_menu_level_li posa" title_tip="' + data_4[i].name +
-						'" onmouseover="methods.li_mouseup(this)"  onmouseout="methods.li_mouseout(this)" style="transform: rotateZ(-' + (90 - deg * i) +
-						'deg);" onclick = "li_click(this)">' +
+						'" onmouseover="methods.li_mouseup(this)"  onmouseout="methods.li_mouseout(this)" style="transform: rotateZ(-' +
+						(90 - deg * i) +
+						'deg);" onclick = "methods.li_click(this)">' +
 						'<div href="' + data_4[i].url + '">' +
 						'<i class="fa ' + data_4[i].symbol + '"></i></div>' +
 						'</li>'
@@ -298,8 +314,27 @@ var methods = {
 	},
 	//圆盘菜单点击
 	li_click(e) {
-		myChart.clear();
-		myChart.setOption(option);
+		//请求数据以及数据处理
+		//$.ajax()
+		data.nodes.push({
+			name: "" + Date.now(),
+			category: 2
+		});
+		data.links.push({
+			target: render.current.echarts_name,
+			source: "" + Date.now(),
+			name: "qwer"
+		});
+		categories.push({
+			name: '其他',
+			itemStyle: {
+				color: "#f00"
+			}
+		})
+		//清空操作
+		render.myChart.clear();
+		//图表设置
+		render.myChart.setOption(option);
 		$(e).toggleClass("r_menu_level_li_active");
 		//其他操作。。。
 	},
@@ -316,6 +351,6 @@ var methods = {
 }
 
 /**
-	* 执行脚本
-	* */
+ * 执行脚本
+ * */
 page.init();

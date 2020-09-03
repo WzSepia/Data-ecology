@@ -67,23 +67,24 @@ var data = {
 	}]
 }
 
-
 const color1 = '#006acc';
 const color2 = '#ff7d18';
 const color3 = '#10a050';
 
-// data.nodes.forEach(node => {
-// 	if (node.category === 0) {
-// 		node.symbolSize = 100;
-// 		node.itemStyle = {
-// 			color: color1
-// 		};
-// 	} else if (node.category === 1) {
-// 		node.itemStyle = {
-// 			color: color2
-// 		};
-// 	}
-// });
+data.nodes.forEach(node => {
+	if (node.category === 0) {
+		node.symbol = "image://./img/1.jpg";
+		//node.symbolSize = 100;
+		// node.itemStyle = {
+		// 	color: color1
+		// };
+	} else if (node.category === 1) {
+		node.symbol = "image://./img/circle-1.png";
+		// node.itemStyle = {
+		// 	color: color2
+		// };
+	}
+});
 
 data.links.forEach(link => {
 	// link.label = {
