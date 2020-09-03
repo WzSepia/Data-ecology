@@ -52,6 +52,8 @@ var option = {
 		backgroundColor: 'rgba(0,0,0,1)',
 		borderColor: '#333',
 	},
+	animationDuration: 1500,
+	animationEasingUpdate: 'quinticInOut',
 	series: [{
 		type: 'graph',
 		layout: 'force',
