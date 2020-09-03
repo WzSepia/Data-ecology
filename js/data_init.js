@@ -23,20 +23,14 @@ var data = {
 
 data.nodes.forEach(node => {
 	if (node.category === 0) {
-		node.symbolSize = 150;
-		node.itemStyle = {
-			color: "#000"
-		};
+		node.symbolSize = 50;
 	} else if (node.category === 1) {
-		node.symbolSize = 100;
-		node.itemStyle = {
-			color: "#666"
-		};
+		node.symbolSize = 50;
 	} else if (node.category === 2) {
-		node.symbolSize = 70;
-		node.itemStyle = {
-			color: "#333"
-		};
+		node.symbolSize = 50;
+		// node.itemStyle = {
+		// 	color: "#333"
+		// };
 	}
 });
 
@@ -48,12 +42,12 @@ data.nodes.forEach(node => {
 var categories = [{
 		//类目名称，用于和 legend 对应以及格式化 tooltip 的内容。
 		name: 0,
-		itemStyle: {
-			color: "#ff0"
-		},
+		// itemStyle: {
+		// 	color: "#ff0"
+		// },
 		label: {
 			formatter: [
-				'{a|categories修改label}'
+				'{a|catelabel}'
 			].join('\n'),
 			rich: {
 				a: {
@@ -65,18 +59,18 @@ var categories = [{
 	},
 	{
 		name: 1,
-		itemStyle: {
-			color: "#f0f", //图例颜色
-			borderColor: "#00f",
-			borderWidth: 10,
-			borderType: 'solid',
-		}
+		// itemStyle: {
+		// 	color: "#f0f", //图例颜色
+		// 	borderColor: "#00f",
+		// 	borderWidth: 10,
+		// 	borderType: 'solid',
+		// }
 	},
 	{
 		name: 2,
-		itemStyle: {
-			color: "#f0f" //图例颜色
-		}
+		// itemStyle: {
+		// 	color: "#f0f" //图例颜色
+		// }
 	}
 ]
 
@@ -171,5 +165,39 @@ var option = {
 				target: 'node2'
 			}
 		]
+	}]
+}
+
+//菜单数据
+var data_menu = {
+	data3: [{
+		name: "测试fa-link",
+		symbol: "fa-link",
+		url: "01"
+	}, {
+		name: "测试fa-phone",
+		symbol: "fa-phone",
+		url: "02"
+	}, {
+		name: "fa-info",
+		symbol: "fa-info",
+		url: "03"
+	}],
+	data4: [{
+		name: "测试01pencil",
+		symbol: "fa-pencil",
+		url: "001"
+	}, {
+		name: "测试02magic",
+		symbol: "fa-magic",
+		url: "002"
+	}, {
+		name: "测试03meh-o",
+		symbol: "fa-meh-o",
+		url: "003"
+	}, {
+		name: "测试04plane",
+		symbol: "fa-plane",
+		url: "004"
 	}]
 }

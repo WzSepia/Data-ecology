@@ -209,3 +209,38 @@ var option = {
 		links: data.links
 	}]
 }
+
+
+//菜单数据
+var data_menu = {
+	data3: [{
+		name: "测试fa-link",
+		symbol: "fa-link",
+		url: "01"
+	}, {
+		name: "测试fa-phone",
+		symbol: "fa-phone",
+		url: "02"
+	}, {
+		name: "fa-info",
+		symbol: "fa-info",
+		url: "03"
+	}],
+	data4: [{
+		name: "测试01pencil",
+		symbol: "fa-pencil",
+		url: "001"
+	}, {
+		name: "测试02magic",
+		symbol: "fa-magic",
+		url: "002"
+	}, {
+		name: "测试03meh-o",
+		symbol: "fa-meh-o",
+		url: "003"
+	}, {
+		name: "测试04plane",
+		symbol: "fa-plane",
+		url: "004"
+	}]
+}
