@@ -30,6 +30,7 @@ var option = {
 		roam: true,
 		//focusNodeAdjacency: true,
 		categories: categories,
+		symbolSize: 60,
 		edgeSymbol: ['', 'arrow'],
 		edgeSymbolSize: 6,
 		//标签。
@@ -47,7 +48,7 @@ var option = {
 					fontWeight: "bold",
 					verticalAlign: "middle",
 					lineHeight: 1,
-					padding: 6,
+					padding: 10,
 					borderColor: "#ffffff",
 					borderWidth: 0,
 					borderRadius: 4,
@@ -250,7 +251,7 @@ myChart.on('click', function(params) {
 		})
 	} else if (params.dataType == "node") {
 		//圆盘菜单显示隐藏
-		menu(".r_menu", 4, data_menu.data3,data_menu.data4);
+		menu(".r_menu", 4, data_menu.data3, data_menu.data4);
 		if (current.dataIndex == params.dataIndex) {
 			current.dataIndex = null;
 			$(".r_menu").addClass("r_menu_hide");
@@ -268,11 +269,11 @@ myChart.on('click', function(params) {
 });
 
 //检测图表上的点击事件
-$("canvas").parent("div").on("click",(e)=>{
+$("canvas").parent("div").on("click", (e) => {
 	//获取元素cursor状态
 	let def = $("canvas").parent("div").attr("style").split("cursor:")[1]
 	//判断是否在元素上
-	if(def.indexOf("default")>-1){
+	if (def.indexOf("default") > -1) {
 		//移除line弹窗
 		$(".r_tip").remove();
 		//关掉菜单
@@ -287,7 +288,6 @@ $("canvas").parent("div").on("click",(e)=>{
 
 //处理菜单点击
 function li_click(e) {
-	$(e).stopPropagation()
 	myChart.clear();
 	myChart.setOption(option);
 	$(e).toggleClass("r_menu_level_li_active");
@@ -311,5 +311,5 @@ function li_mouseout(e) {
  * */
 
 document.addEventListener("mousedown", function(e) {
-	
+
 })
