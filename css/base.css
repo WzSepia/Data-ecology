@@ -22,26 +22,26 @@ body {
 	height: 100%;
 }
 
-.fl{
+.fl {
 	float: left;
 }
 
-.fr{
+.fr {
 	float: right;
 }
 
-.posr{
+.posr {
 	position: relative;
 }
 
-.posa{
+.posa {
 	position: absolute;
 }
 
 /**
 	* 文字省略号...
 	*/
-.ellipsis{
+.ellipsis {
 	width: 100%;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -49,7 +49,17 @@ body {
 }
 
 /*轻浮动*/
-.clear{
-	content:"";
+.clear {
+	content: "";
 	clear: both;
+}
+
+/*轻浮动*/
+.c {
+	clear: both;
+}
+
+/* 隐藏，不展示 */
+.hidden {
+	display: none;
 }

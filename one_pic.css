@@ -1,3 +1,9 @@
+/* 
+		数据生态样式
+		wangze
+		index 4
+		index 100
+	*/
 @charset "utf-8";
 
 body {
@@ -31,9 +37,14 @@ body {
 	background-size: 100% 240px;
 }
 
-/* .r_title:hover {
-	top: 0px;
-} */
+.r_tabs {
+	width: 348px;
+	z-index: 100;
+	top: 8px;
+	left: 12px;
+	background: #4a4f56;
+	z-index: 100;
+}
 
 .r_relation {
 	width: 100%;
@@ -318,6 +329,214 @@ body {
 	overflow: auto;
 	word-break: break-word;
 	padding-right: 10px;
+}
+
+/* 关系列表 */
+.r_lists {
+	font-size: 16px;
+	height: 42px;
+	width: 348px;
+	text-align: center;
+	background-image: url(./img/relation-list.png);
+	background-size: 370px 80px;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-position-y: -25px;
+	color: #fff;
+	line-height: 42px;
+	left: 10px;
+	bottom: 18px;
+	cursor: pointer;
+	z-index: 100;
+}
+
+.r_lists_box {
+	display: none;
+	height: auto;
+	max-height: 590px;
+	line-height: 1.5;
+	background-color: transparent;
+	background-image: url(./img/left-list-top.png), url(./img/left-list-middle.png), url(./img/left-list-bottom.png);
+	background-size: 100% 60px, 100% calc(100% - 120px), 100% 60px;
+	background-position: 0 0, left 60px, 0 100%;
+	background-repeat: no-repeat;
+	color: rgba(190, 192, 208, .8);
+	font-size: 14px;
+	cursor: default;
+	left: -14px;
+	bottom: 44px;
+	min-height: 100px;
+	width: 390px;
+	text-align: left;
+	overflow: hidden;
+	transition: all .2s linear 0s;
+}
+
+.r_lists_box ul {
+	margin: 16px 24px;
+	padding: 0;
+	max-height: 560px;
+	display: block;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.r_lists_box ul li {
+	position: relative;
+	margin-bottom: 0px;
+	width: 100%;
+	padding: 12px 24px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.r_lists_box ul li.active {
+	background-color: hsla(0, 0%, 100%, .06);
+	color: #bec0d0;
+}
+
+.r_lists_box .relation-name {
+	width: 60px;
+	position: absolute;
+	text-align: right;
+	margin-left: -25px;
+	word-wrap: break-word;
+	word-break: break-all;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.r_lists_box ul li.active .relation-name,
+.r_lists_box ul li.active .relation-a,
+.r_lists_box ul li.active .relation-b {
+	color: #ff7963;
+}
+
+.r_lists_box .circle {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	position: absolute;
+	left: 63px;
+	top: 12px;
+	background: #000;
+}
+
+.r_lists_box ul li.active .circle {
+	border: 2px solid #ff7963;
+	box-shadow: 0 0 6px 2px #ff7963;
+}
+
+.r_lists_box .detail {
+	padding-left: 12px;
+	background-image: linear-gradient(180deg, #ccc 0, #ccc 20%, transparent 0);
+	background-size: 4px 8px;
+	background-repeat: repeat-y;
+	margin-left: 43px;
+}
+
+.relation-a,
+.relation-b {
+	display: inline-block;
+}
+
+.r_lists_box .detail .relation-arrow {
+	width: 27px;
+	height: 9px;
+	background: url(./img/arrow-right.svg) no-repeat 50%;
+	background-size: contain;
+	margin-top: 5px;
+	display: inline-block;
+}
+
+.r_lists_box .detail .relation-time {
+	font-size: 12px;
+	line-height: 20px;
+	color: rgba(190, 192, 208, .6);
+}
+
+.r_lists_box .detail .desc-full,
+.r_lists_box .detail .desc {
+	padding-top: 4px;
+	line-height: 2;
+	margin-top: -3px;
+	text-align: justify;
+}
+
+/* 自动播放 */
+.r_lists_play {
+	height: 42px;
+	width: 42px;
+	left: 368px;
+	bottom: 18px;
+	color: #fff;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+	cursor: pointer;
+	z-index: 100;
+	border: 2px solid #b0bbc0;
+	border-radius: 50%;
+	background: #32363d;
+}
+
+.r_lists_play_btn {
+	width: 16px;
+	height: 20px;
+	background-size: cover;
+	position: absolute;
+	background-repeat: no-repeat;
+	background-image: url(./img/pause.svg);
+	left: 14px;
+	top: 9px;
+}
+
+/* 关系探索 */
+.r_explore {
+	width: 136px;
+	height: 42px;
+	background-image: url(./img/switch-bg.png);
+	background-size: cover;
+	text-align: center;
+	z-index: 100;
+	left: 420px;
+	bottom: 18px;
+}
+
+.switch-text {
+	display: inline-block;
+	margin-top: 10px;
+	color: #fff;
+	vertical-align: top;
+}
+
+.switch-btn-container {
+	display: inline-block;
+	width: 28px;
+	height: 6px;
+	background: #40434a;
+	border-radius: 10px;
+	position: relative;
+	border: none;
+	margin-top: 17px;
+	margin-left: 12px;
+	cursor: pointer;
+	background: #78ffd3;
+	box-shadow: 0 0 4px 0 rgba(93, 255, 228, .83);
+	border: none;
+}
+
+.switch-btn {
+	width: 16px;
+	height: 16px;
+	background: #d3dde4;
+	position: absolute;
+	margin: 0;
+	top: -5px;
+	left: 19px;
+	border-radius: 100%;
+	transition: left .3s;
+	float: right;
 }
 
 /**

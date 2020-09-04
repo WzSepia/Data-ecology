@@ -17,7 +17,18 @@ var page = {
  * 元素变量
  * */
 var dom = {
+	//图表元素
 	el: document.querySelector(".r_relation"),
+	//关系列表盒子
+	r_lists_box:$(".r_lists_box"),
+	//关系列表
+	r_lists_ul: $(".r_lists_ul"),
+	//关系列表按钮🔘
+	r_lists_btn: $(".r_lists_btn"),
+	//自动探索列表
+	r_lists_play: $(".r_lists_play"),
+	//关系探索
+	switch_btn_container: $(".switch-btn-container"),
 }
 
 /**
@@ -149,70 +160,20 @@ var option = {
 var methods = {
 	//==============页面初始加载===============
 	init() {
+		//绘制关系图
 		render.myChart.showLoading();
 		render.myChart.setOption(option);
 		render.myChart.hideLoading();
-		//图表添加点击
-		render.myChart.on('click', function(params) {
-			render.current.echarts_name = params.name;
-			let name = params.name;
-			let x = params.event.offsetX;
-			let y = params.event.offsetY;
-			let dia_str = '<div class="r_tip posa">' +
-				'<div class="r_tip_title"><span><i class="fa fa-edit"></i>编辑关系</span></div>' +
-				'<div class="r_tip_up">' +
-				'<span class="r_tip_l">' + name.split(">")[0] + '</span>' +
-				'<span class="r_tip_to"><i class="fa fa-long-arrow-right"></i></span>' +
-				'<span class="r_tip_r">' + name.split(">")[1] + '</span>' +
-				'</div>' +
-				'<div class="r_tip_down">' + '请求的数据' + '</div>' +
-				'</div>'
-			//移除自定义弹框
-			$(".r_tip").remove();
-			//判断点击位置
-			if (params.dataType == "edge") {
-				$(".r_relation").append(dia_str);
-				$(".r_tip").css({
-					"left": x,
-					"top": y,
-					"z-index": 3,
-				})
-			} else if (params.dataType == "node") {
-				//圆盘菜单显示隐藏
-				methods.menu(".r_menu", 4, data_menu.data3, data_menu.data4);
-				if (render.current.dataIndex == params.dataIndex) {
-					render.current.dataIndex = null;
-					$(".r_menu").addClass("r_menu_hide");
-				} else {
-					render.current.dataIndex = params.dataIndex;
-					$(".r_menu").addClass("r_menu_hide");
-					setTimeout(function() {
-						$(".r_menu").removeClass("r_menu_hide");
-					}, 290)
-				}
-			}
-			//后续操作
-			console.log(params);
-			//
-		});
-		//=========检测图表上的点击事件==========
-		$("canvas").parent("div").on("click", (e) => {
-			//获取元素cursor状态
-			let def = $("canvas").parent("div").attr("style").split("cursor:")[1]
-			//判断是否在元素上
-			if (def.indexOf("default") > -1) {
-				//移除line弹窗
-				$(".r_tip").remove();
-				//关掉菜单
-				if (!$(".r_menu").hasClass("r_menu_hide")) {
-					setTimeout(function() {
-						render.current.dataIndex = null;
-						$(".r_menu").addClass("r_menu_hide");
-					}, 100)
-				}
-			}
-		})
+		//绘制关系列表	
+		methods.relationLists([1,2,3,4,5]) 
+		//图表事件
+  methods.myChartsClick();
+		//图表父元素事件
+		methods.canvasPreDivClick();
+		//关系列表事件（显示隐藏）
+		methods.relationListsBtn();
 	},
+	//============菜单绘制
 	menu(dom, level, data_3, data_4) {
 		//菜单外围盒子
 		let menu = $(dom);
@@ -314,7 +275,96 @@ var methods = {
 				break;
 		}
 	},
-	//圆盘菜单点击
+	//=============菜单列表绘制============
+	relationLists(data) {
+		if (!data) return;
+		let html = '';
+		for (i in data) {
+			html +=
+				`<li>
+							<div class="relation-name">属于</div>
+							<div class="circle"></div>
+							<div class="detail">
+								<div class="relation-a">美洲原住民</div>
+								<div class="relation-arrow right"></div>
+								<div class="relation-b">蒙古人种</div>
+								<div class="relation-time"></div>
+								<div class="desc-full hidden">美洲原住民属于东亚人种美洲支系，与现代东亚人有共同的祖先，最晚在一万年前从东亚迁徙到美洲。</div>
+								<div class="desc">
+									美洲原住民属于东亚人种美洲支系，与现代东亚人有共同的祖先，最晚在一万年前从东亚迁徙到美洲。
+								</div>
+								<div class="c"></div>
+							</div>
+						</li>`
+		}
+		dom.r_lists_ul.append(html);
+	},
+	//=============
+	myChartsClick() {
+		//图表添加点击
+		render.myChart.on('click', function(params) {
+			render.current.echarts_name = params.name;
+			let name = params.name;
+			let x = params.event.offsetX;
+			let y = params.event.offsetY;
+			let dia_str = '<div class="r_tip posa">' +
+				'<div class="r_tip_title"><span><i class="fa fa-edit"></i>编辑关系</span></div>' +
+				'<div class="r_tip_up">' +
+				'<span class="r_tip_l">' + name.split(">")[0] + '</span>' +
+				'<span class="r_tip_to"><i class="fa fa-long-arrow-right"></i></span>' +
+				'<span class="r_tip_r">' + name.split(">")[1] + '</span>' +
+				'</div>' +
+				'<div class="r_tip_down">' + '请求的数据' + '</div>' +
+				'</div>'
+			//移除自定义弹框
+			$(".r_tip").remove();
+			//判断点击位置
+			if (params.dataType == "edge") {
+				$(".r_relation").append(dia_str);
+				$(".r_tip").css({
+					"left": x,
+					"top": y,
+					"z-index": 3,
+				})
+			} else if (params.dataType == "node") {
+				//圆盘菜单显示隐藏
+				methods.menu(".r_menu", 4, data_menu.data3, data_menu.data4);
+				if (render.current.dataIndex == params.dataIndex) {
+					render.current.dataIndex = null;
+					$(".r_menu").addClass("r_menu_hide");
+				} else {
+					render.current.dataIndex = params.dataIndex;
+					$(".r_menu").addClass("r_menu_hide");
+					setTimeout(function() {
+						$(".r_menu").removeClass("r_menu_hide");
+					}, 290)
+				}
+			}
+			//后续操作
+			console.log(params);
+			//
+		})
+	},
+	//=========检测图表上的点击事件==========
+	canvasPreDivClick(){
+		$("canvas").parent("div").on("click", (e) => {
+			//获取元素cursor状态
+			let def = $("canvas").parent("div").attr("style").split("cursor:")[1]
+			//判断是否在元素上
+			if (def.indexOf("default") > -1) {
+				//移除line弹窗
+				$(".r_tip").remove();
+				//关掉菜单
+				if (!$(".r_menu").hasClass("r_menu_hide")) {
+					setTimeout(function() {
+						render.current.dataIndex = null;
+						$(".r_menu").addClass("r_menu_hide");
+					}, 100)
+				}
+			}
+		})
+	},
+	//=============圆盘菜单点击
 	li_click(e) {
 		//请求数据以及数据处理
 		//$.ajax()
@@ -340,15 +390,23 @@ var methods = {
 		$(e).toggleClass("r_menu_level_li_active");
 		//其他操作。。。
 	},
-	//菜单hover(鼠标移上)的提示框
+	//=============菜单hover(鼠标移上)的提示框
 	li_mouseup(e) {
 		let title = $(e).attr("title_tip");
 		let str = '<span>' + title + '</span>';
 		$(e).find("i").append(str);
 	},
-	//菜单鼠标移开的提示框
+	//=============菜单鼠标移开的提示框=======
 	li_mouseout(e) {
 		$(e).find("span").remove();
+	},
+	//=============关系列表控制==============
+	relationListsBtn(){
+		dom.r_lists_btn.off("click").on("click",(e)=>{
+			dom.r_lists_box.toggle(1000,"linear",()=>{
+				
+			});
+		})
 	}
 }
 
