@@ -5,6 +5,7 @@
 		<title>数据生态架构开发</title>
 		<link rel="stylesheet" type="text/css" href="css/base.css" />
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="css/swiper-bundle.min.css" name="@6.2.0" />
 		<link rel="stylesheet" type="text/css" href="one_pic.css" />
 	</head>
 	<body>
@@ -14,7 +15,7 @@
 			<!-- 搜索 -->
 			<div class="search-container">
 				<div class="r_tabs posa">
-					
+
 				</div>
 			</div>
 			<!-- 关系图 -->
@@ -54,11 +55,22 @@
 			<div class="r_lists posa">
 				<p class="r_lists_btn">关系列表</p>
 				<div class="r_lists_box posa">
-					<ul class="r_lists_ul"></ul>
+					<div class="swiper-container">
+						<div class="swiper-wrapper r_lists_ul">
+							
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="r_lists_play posa">
-				<span class="r_lists_play_btn"></span>
+				<div class="pause-wrapper"></div>
+				<div class="r_lists_play_press_l posa">
+					<div class="circleProgress leftcircle"></div>
+				</div>
+				<div class="r_lists_play_press_r posa">
+					<div class="circleProgress rightcircle"></div>
+				</div>
+				<span class="r_lists_play_btn posa"></span>
 			</div>
 			<div class="r_explore posa">
 				<div class="switch-text">关系探索</div>
@@ -70,6 +82,7 @@
 		<script type="text/javascript" src="./js/jquery-1.11.0.min.js"></script>
 		<script type="text/javascript" src="./js/echarts.js"></script>
 		<script type="text/javascript" src="./js/data.js"></script>
+		<script type="text/javascript" src="./js/swiper-bundle.min.js" name="@6.2.0"></script>
 		<script type="text/javascript" src="./js/one_pic.js"></script>
 	</body>
 </html>

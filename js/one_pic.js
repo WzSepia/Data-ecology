@@ -20,7 +20,7 @@ var dom = {
 	//图表元素
 	el: document.querySelector(".r_relation"),
 	//关系列表盒子
-	r_lists_box:$(".r_lists_box"),
+	r_lists_box: $(".r_lists_box"),
 	//关系列表
 	r_lists_ul: $(".r_lists_ul"),
 	//关系列表按钮🔘
@@ -165,9 +165,9 @@ var methods = {
 		render.myChart.setOption(option);
 		render.myChart.hideLoading();
 		//绘制关系列表	
-		methods.relationLists([1,2,3,4,5]) 
+		methods.relationLists(relations_lists_data)
 		//图表事件
-  methods.myChartsClick();
+		methods.myChartsClick();
 		//图表父元素事件
 		methods.canvasPreDivClick();
 		//关系列表事件（显示隐藏）
@@ -281,25 +281,100 @@ var methods = {
 		let html = '';
 		for (i in data) {
 			html +=
-				`<li>
-							<div class="relation-name">属于</div>
+				`<div class="swiper-slide">
+							<div class="relation-name">`+data[i].relation_name+`</div>
 							<div class="circle"></div>
 							<div class="detail">
-								<div class="relation-a">美洲原住民</div>
+								<div class="relation-a">`+ data[i].relation_a +`</div>
 								<div class="relation-arrow right"></div>
-								<div class="relation-b">蒙古人种</div>
+								<div class="relation-b">`+ data[i].relation_b +`</div>
 								<div class="relation-time"></div>
-								<div class="desc-full hidden">美洲原住民属于东亚人种美洲支系，与现代东亚人有共同的祖先，最晚在一万年前从东亚迁徙到美洲。</div>
-								<div class="desc">
-									美洲原住民属于东亚人种美洲支系，与现代东亚人有共同的祖先，最晚在一万年前从东亚迁徙到美洲。
-								</div>
+								<div class="desc-full hidden">`+ data[i].desc_full +`</div>
+								<div class="desc">`+ data[i].desc +`</div>
 								<div class="c"></div>
 							</div>
-						</li>`
+						</div>`
 		}
 		dom.r_lists_ul.append(html);
+		//轮播
+		dom.swiper = new Swiper('.swiper-container', {
+			direction: 'vertical',
+			//speed:3000,
+			slidesPerView: 5,
+			spaceBetween: 0,
+			roundLengths: true,
+			freeMode: false, //slide惯性滑动
+			loop: false,
+			mousewheel: true,
+			autoplay: false,
+			// {
+			// 	autoplay: false,
+			// 	delay: 3000,
+			// 	stopOnLastSlide: false,
+			// 	disableOnInteraction: true,
+			// },
+			//virtual: true,//虚拟slide
+			on: {
+				slideChangeTransitionStart: function() {
+					$(".rightcircle").addClass("rotate45_225");
+					setTimeout(function() {
+						$(".leftcircle").addClass("rotate45_225");
+					}, 1500);
+					setTimeout(function() {
+						$(".rightcircle").removeClass("rotate45_225");
+						$(".leftcircle").removeClass("rotate45_225");
+					}, 2999);
+					//console.log(this.activeIndex);
+				},
+				click: function() {
+					$(".swiper-slide").removeClass("active");
+					$(this.clickedSlide).addClass("active");
+				},
+			},
+		});
+		//
+		dom.r_lists_play.on("click", (e) => {
+			if (dom.swiper.autoplay.running) {
+				$(".r_lists_play_btn").css({
+					"backgroundImage": "url(./img/pause.svg)",
+					"left": "15px"
+				})
+				dom.swiper.autoplay.stop();
+				$(".rightcircle").removeClass("rotate45_225");
+				$(".leftcircle").removeClass("rotate45_225");
+			} else {
+				$(".r_lists_play_btn").css({
+					"backgroundImage": "url(./img/play.svg)",
+					"left": "13px"
+				})
+				dom.swiper.autoplay.start();
+				$(".rightcircle").addClass("rotate45_225");
+				setTimeout(function() {
+					$(".leftcircle").addClass("rotate45_225");
+				}, 1500);
+				setTimeout(function() {
+					$(".rightcircle").removeClass("rotate45_225");
+					$(".leftcircle").removeClass("rotate45_225");
+				}, 2990);
+			}
+		});
+		//关系探索点击
+		dom.switch_btn_container.on("click", function(e) {
+			if ($(this).hasClass("close")) {
+				$(this).removeClass("close");
+			} else {
+				$(this).addClass("close");
+				dom.swiper.autoplay.stop();
+				$(".r_lists_play_btn").css({
+					"backgroundImage": "url(./img/pause.svg)",
+					"left": "15px"
+				})
+				$(".rightcircle").removeClass("rotate45_225");
+				$(".leftcircle").removeClass("rotate45_225");
+			}
+		});
 	},
-	//=============
+	//=============图表点击事件=============
 	myChartsClick() {
 		//图表添加点击
 		render.myChart.on('click', function(params) {
@@ -346,7 +421,7 @@ var methods = {
 		})
 	},
 	//=========检测图表上的点击事件==========
-	canvasPreDivClick(){
+	canvasPreDivClick() {
 		$("canvas").parent("div").on("click", (e) => {
 			//获取元素cursor状态
 			let def = $("canvas").parent("div").attr("style").split("cursor:")[1]
@@ -401,11 +476,15 @@ var methods = {
 		$(e).find("span").remove();
 	},
 	//=============关系列表控制==============
-	relationListsBtn(){
-		dom.r_lists_btn.off("click").on("click",(e)=>{
-			dom.r_lists_box.toggle(1000,"linear",()=>{
-				
-			});
+	relationListsBtn() {
+		dom.r_lists_btn.off("click").on("click", (e) => {
+			if (dom.r_lists_box.hasClass("hidden")) {
+				dom.r_lists_box.fadeIn();
+				dom.r_lists_box.removeClass("hidden");
+			} else {
+				dom.r_lists_box.fadeOut();
+				dom.r_lists_box.addClass("hidden");
+			}
 		})
 	}
 }

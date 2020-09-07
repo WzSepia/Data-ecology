@@ -350,10 +350,9 @@ body {
 	z-index: 100;
 }
 
-.r_lists_box {
-	display: none;
-	height: auto;
-	max-height: 590px;
+.r_lists .r_lists_box {
+	width: 390px;
+	padding: 20px 0;
 	line-height: 1.5;
 	background-color: transparent;
 	background-image: url(./img/left-list-top.png), url(./img/left-list-middle.png), url(./img/left-list-bottom.png);
@@ -365,24 +364,23 @@ body {
 	cursor: default;
 	left: -14px;
 	bottom: 44px;
-	min-height: 100px;
-	width: 390px;
 	text-align: left;
 	overflow: hidden;
 	transition: all .2s linear 0s;
 }
 
-.r_lists_box ul {
-	margin: 16px 24px;
+.r_lists .swiper-wrapper {
+	width: auto;
+	height: auto;
+	margin: 6px 24px;
 	padding: 0;
 	max-height: 560px;
-	display: block;
-	overflow-y: auto;
-	overflow-x: hidden;
+	display: flex;
+	transition-property: transform;
+	box-sizing: content-box;
 }
 
-.r_lists_box ul li {
-	position: relative;
+.r_lists .swiper-slide {
 	margin-bottom: 0px;
 	width: 100%;
 	padding: 12px 24px;
@@ -390,12 +388,12 @@ body {
 	cursor: pointer;
 }
 
-.r_lists_box ul li.active {
+.r_lists .swiper-slide.active {
 	background-color: hsla(0, 0%, 100%, .06);
 	color: #bec0d0;
 }
 
-.r_lists_box .relation-name {
+.r_lists .relation-name {
 	width: 60px;
 	position: absolute;
 	text-align: right;
@@ -407,13 +405,13 @@ body {
 	text-overflow: ellipsis;
 }
 
-.r_lists_box ul li.active .relation-name,
-.r_lists_box ul li.active .relation-a,
-.r_lists_box ul li.active .relation-b {
+.r_lists .swiper-slide.active .relation-name,
+.r_lists .swiper-slide.active .relation-a,
+.r_lists .swiper-slide.active .relation-b {
 	color: #ff7963;
 }
 
-.r_lists_box .circle {
+.r_lists .circle {
 	width: 12px;
 	height: 12px;
 	border-radius: 50%;
@@ -424,12 +422,12 @@ body {
 	background: #000;
 }
 
-.r_lists_box ul li.active .circle {
+.r_lists .swiper-slide.active .circle {
 	border: 2px solid #ff7963;
 	box-shadow: 0 0 6px 2px #ff7963;
 }
 
-.r_lists_box .detail {
+.r_lists .detail {
 	padding-left: 12px;
 	background-image: linear-gradient(180deg, #ccc 0, #ccc 20%, transparent 0);
 	background-size: 4px 8px;
@@ -442,7 +440,7 @@ body {
 	display: inline-block;
 }
 
-.r_lists_box .detail .relation-arrow {
+.r_lists .detail .relation-arrow {
 	width: 27px;
 	height: 9px;
 	background: url(./img/arrow-right.svg) no-repeat 50%;
@@ -475,20 +473,69 @@ body {
 	text-shadow: 0 2px 4px rgba(0, 0, 0, .2);
 	cursor: pointer;
 	z-index: 100;
+	border-radius: 50%;
+	background: #32363d;
+}
+
+.pause-wrapper {
+	width: 42px;
+	height: 42px;
 	border: 2px solid #b0bbc0;
 	border-radius: 50%;
 	background: #32363d;
+}
+
+.r_lists_play_press_l,
+.r_lists_play_press_r {
+	width: 21px;
+	height: 42px;
+	top: 0;
+	overflow: hidden;
+}
+
+.r_lists_play_press_l {
+	left: 0;
+}
+
+.r_lists_play_press_r {
+	right: 0;
+}
+
+.circleProgress {
+	width: 42px;
+	height: 42px;
+	border: 2px solid #78ffd3;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	transform: rotate(45deg);
+}
+
+.leftcircle {
+	border-bottom: 2px solid #b0bbc0;
+	border-left: 2px solid #b0bbc0;
+	left: 0;
+}
+
+.rightcircle {
+	border-top: 2px solid #b0bbc0;
+	border-right: 2px solid #b0bbc0;
+	right: 0;
+}
+
+.rotate45_225 {
+	transition: all 1.5s linear 0s;
+	transform: rotateZ(225deg);
 }
 
 .r_lists_play_btn {
 	width: 16px;
 	height: 20px;
 	background-size: cover;
-	position: absolute;
 	background-repeat: no-repeat;
 	background-image: url(./img/pause.svg);
-	left: 14px;
-	top: 9px;
+	left: 15px;
+	top: 10px;
 }
 
 /* 关系探索 */
@@ -524,6 +571,7 @@ body {
 	background: #78ffd3;
 	box-shadow: 0 0 4px 0 rgba(93, 255, 228, .83);
 	border: none;
+	transition: all .3s linear 0s;
 }
 
 .switch-btn {
@@ -537,6 +585,16 @@ body {
 	border-radius: 100%;
 	transition: left .3s;
 	float: right;
+	transition: all .3s linear 0s;
+}
+
+.switch-btn-container.close{
+	background: #40434a;
+	box-shadow: 0 0 4px 0 rgba(93,255,228,0);
+}
+
+.switch-btn-container.close .switch-btn {
+		left: -8px;
 }
 
 /**
@@ -550,5 +608,15 @@ body {
 
 	to {
 		transform: rotateZ(360deg);
+	}
+}
+
+@keyframes rotate225 {
+	from {
+		transform: rotateZ(0deg);
+	}
+
+	to {
+		transform: rotateZ(225deg);
 	}
 }

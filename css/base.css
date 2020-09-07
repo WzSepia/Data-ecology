@@ -31,11 +31,11 @@ body {
 }
 
 .posr {
-	position: relative;
+	position: relative!important;
 }
 
 .posa {
-	position: absolute;
+	position: absolute!important;
 }
 
 /**
