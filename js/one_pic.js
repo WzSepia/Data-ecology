@@ -70,7 +70,8 @@ var option = {
 		layout: 'force',
 		draggable: true,
 		roam: true,
-		//focusNodeAdjacency: true,
+		hoverAnimation: true,
+		focusNodeAdjacency: true,
 		categories: categories,
 		symbolSize: 55,
 		edgeSymbol: ['', 'arrow'],
@@ -282,15 +283,21 @@ var methods = {
 		for (i in data) {
 			html +=
 				`<div class="swiper-slide">
-							<div class="relation-name">`+data[i].relation_name+`</div>
+							<div class="relation-name">` + data[i].relation_name +
+				`</div>
 							<div class="circle"></div>
 							<div class="detail">
-								<div class="relation-a">`+ data[i].relation_a +`</div>
+								<div class="relation-a">` + data[i].relation_a +
+				`</div>
 								<div class="relation-arrow right"></div>
-								<div class="relation-b">`+ data[i].relation_b +`</div>
-								<div class="relation-time"></div>
-								<div class="desc-full hidden">`+ data[i].desc_full +`</div>
-								<div class="desc">`+ data[i].desc +`</div>
+								<div class="relation-b">` + data[i].relation_b +
+				`</div>
+								<div class="relation-time">` + data[i].relation_time +
+				`</div>
+								<div class="desc-full hidden">` + data[i].desc_full +
+				`</div>
+								<div class="desc">` + data[i].desc +
+				`</div>
 								<div class="c"></div>
 							</div>
 						</div>`
@@ -298,9 +305,10 @@ var methods = {
 		dom.r_lists_ul.append(html);
 		//轮播
 		dom.swiper = new Swiper('.swiper-container', {
+			//init:false,
 			direction: 'vertical',
 			//speed:3000,
-			slidesPerView: 5,
+			slidesPerView: 4,
 			spaceBetween: 0,
 			roundLengths: true,
 			freeMode: false, //slide惯性滑动
@@ -316,24 +324,53 @@ var methods = {
 			//virtual: true,//虚拟slide
 			on: {
 				slideChangeTransitionStart: function() {
-					$(".rightcircle").addClass("rotate45_225");
-					setTimeout(function() {
-						$(".leftcircle").addClass("rotate45_225");
-					}, 1500);
-					setTimeout(function() {
-						$(".rightcircle").removeClass("rotate45_225");
-						$(".leftcircle").removeClass("rotate45_225");
-					}, 2999);
+					let _that = this;
+					//关系高亮
+					render.myChart.dispatchAction({
+						type: 'focusNodeAdjacency',
+						// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
+						seriesId: "series00",
+						seriesIndex: 0,
+						seriesName: "series0",
+						// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
+						dataIndex: _that.activeIndex, //6
+						//edgeDataIndex: 5
+					})
+					//自动播放按钮动画
+					if (dom.swiper.autoplay.running) {
+						$(".rightcircle").addClass("rotate45_225");
+						setTimeout(function() {
+							$(".leftcircle").addClass("rotate45_225");
+						}, 1500);
+						setTimeout(function() {
+							$(".rightcircle").removeClass("rotate45_225");
+							$(".leftcircle").removeClass("rotate45_225");
+						}, 2999);
+					}
 					//console.log(this.activeIndex);
 				},
 				click: function() {
+					let _that = this;
 					$(".swiper-slide").removeClass("active");
 					$(this.clickedSlide).addClass("active");
+					//
+					render.myChart.dispatchAction({
+						type: 'focusNodeAdjacency',
+						// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
+						seriesId: "series00",
+						seriesIndex: 0,
+						seriesName: "series0",
+						// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
+						dataIndex: _that.clickedIndex, //6
+						//edgeDataIndex: 5
+					})
 				},
 			},
 		});
-		//
-		dom.r_lists_play.on("click", (e) => {
+		//关系列表播放
+		dom.r_lists_play.off("click").on("click", (e) => {
+			dom.r_lists_box.show();
+			dom.r_lists_box.addClass("open");
 			if (dom.swiper.autoplay.running) {
 				$(".r_lists_play_btn").css({
 					"backgroundImage": "url(./img/pause.svg)",
@@ -439,7 +476,7 @@ var methods = {
 			}
 		})
 	},
-	//=============圆盘菜单点击
+	//=============圆盘菜单点击==============
 	li_click(e) {
 		//请求数据以及数据处理
 		//$.ajax()
@@ -478,12 +515,19 @@ var methods = {
 	//=============关系列表控制==============
 	relationListsBtn() {
 		dom.r_lists_btn.off("click").on("click", (e) => {
-			if (dom.r_lists_box.hasClass("hidden")) {
-				dom.r_lists_box.fadeIn();
-				dom.r_lists_box.removeClass("hidden");
+			if (dom.r_lists_box.hasClass("open")) {
+				dom.r_lists_box.hide();
+				dom.r_lists_box.removeClass("open");
+				$(".r_lists_play_btn").css({
+					"backgroundImage": "url(./img/pause.svg)",
+					"left": "15px"
+				});
+				$(".leftcircle").removeClass("rotate45_225");
+				$(".rightcircle").removeClass("rotate45_225");
+				dom.swiper.autoplay.stop();
 			} else {
-				dom.r_lists_box.fadeOut();
-				dom.r_lists_box.addClass("hidden");
+				dom.r_lists_box.show();
+				dom.r_lists_box.addClass("open");
 			}
 		})
 	}
