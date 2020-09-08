@@ -308,13 +308,19 @@ var methods = {
 			//init:false,
 			direction: 'vertical',
 			//speed:3000,
-			slidesPerView: 4,
+			slidesPerView: "auto", //4,
+			//centeredSlides : true,
+			slideToClickedSlide: true,
 			spaceBetween: 0,
-			roundLengths: true,
+			//roundLengths: true,
 			freeMode: false, //slide惯性滑动
-			loop: false,
+			loop: true,
+			loopedSlides: 5,
 			mousewheel: true,
 			autoplay: false,
+			// scrollbar: {
+			// 	el: '.swiper-scrollbar',
+			// },
 			// {
 			// 	autoplay: false,
 			// 	delay: 3000,
@@ -322,50 +328,51 @@ var methods = {
 			// 	disableOnInteraction: true,
 			// },
 			//virtual: true,//虚拟slide
-			on: {
-				slideChangeTransitionStart: function() {
-					let _that = this;
-					//关系高亮
-					render.myChart.dispatchAction({
-						type: 'focusNodeAdjacency',
-						// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
-						seriesId: "series00",
-						seriesIndex: 0,
-						seriesName: "series0",
-						// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
-						dataIndex: _that.activeIndex, //6
-						//edgeDataIndex: 5
-					})
-					//自动播放按钮动画
-					if (dom.swiper.autoplay.running) {
-						$(".rightcircle").addClass("rotate45_225");
-						setTimeout(function() {
-							$(".leftcircle").addClass("rotate45_225");
-						}, 1500);
-						setTimeout(function() {
-							$(".rightcircle").removeClass("rotate45_225");
-							$(".leftcircle").removeClass("rotate45_225");
-						}, 2999);
-					}
-					//console.log(this.activeIndex);
-				},
-				click: function() {
-					let _that = this;
-					$(".swiper-slide").removeClass("active");
-					$(this.clickedSlide).addClass("active");
-					//
-					render.myChart.dispatchAction({
-						type: 'focusNodeAdjacency',
-						// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
-						seriesId: "series00",
-						seriesIndex: 0,
-						seriesName: "series0",
-						// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
-						dataIndex: _that.clickedIndex, //6
-						//edgeDataIndex: 5
-					})
-				},
-			},
+		});
+		//swiper从当前slide开始过渡到另一个slide时执行
+		dom.swiper.on("slideChangeTransitionStart", function() {
+			let _that = this;
+			//关系高亮
+			render.myChart.dispatchAction({
+				type: 'focusNodeAdjacency',
+				// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
+				seriesId: "series00",
+				seriesIndex: 0,
+				seriesName: "series0",
+				// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
+				dataIndex: _that.activeIndex - 5, //6 - 5
+				//edgeDataIndex: 5
+			})
+			//自动播放按钮动画
+			if (dom.swiper.autoplay.running) {
+				$(".rightcircle").addClass("rotate45_225");
+				render.time = setTimeout(function() {
+					$(".leftcircle").addClass("rotate45_225");
+				}, 1500);
+				setTimeout(function() {
+					$(".rightcircle").removeClass("rotate45_225");
+					$(".leftcircle").removeClass("rotate45_225");
+					clearTimeout(render.time);
+				}, 2999);
+			}
+			console.log(this.activeIndex);
+		});
+		//添加回调函数或者事件句柄
+		dom.swiper.on("click", function() {
+			let _that = this;
+			$(".swiper-slide").removeClass("swiper-slide-active");
+			$(this.clickedSlide).addClass("swiper-slide-active");
+			//图形连接高亮
+			render.myChart.dispatchAction({
+				type: 'focusNodeAdjacency',
+				// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
+				seriesId: "series00",
+				seriesIndex: 0,
+				seriesName: "series0",
+				// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
+				dataIndex: _that.clickedIndex, //6
+				//edgeDataIndex: 5
+			})
 		});
 		//关系列表播放
 		dom.r_lists_play.off("click").on("click", (e) => {
@@ -379,6 +386,7 @@ var methods = {
 				dom.swiper.autoplay.stop();
 				$(".rightcircle").removeClass("rotate45_225");
 				$(".leftcircle").removeClass("rotate45_225");
+				clearTimeout(render.time);
 			} else {
 				$(".r_lists_play_btn").css({
 					"backgroundImage": "url(./img/play.svg)",
@@ -386,12 +394,13 @@ var methods = {
 				})
 				dom.swiper.autoplay.start();
 				$(".rightcircle").addClass("rotate45_225");
-				setTimeout(function() {
+				render.timer = setTimeout(function() {
 					$(".leftcircle").addClass("rotate45_225");
 				}, 1500);
 				setTimeout(function() {
 					$(".rightcircle").removeClass("rotate45_225");
 					$(".leftcircle").removeClass("rotate45_225");
+					clearTimeout(render.timer);
 				}, 2990);
 			}
 		});
@@ -405,9 +414,11 @@ var methods = {
 				$(".r_lists_play_btn").css({
 					"backgroundImage": "url(./img/pause.svg)",
 					"left": "15px"
-				})
+				});
 				$(".rightcircle").removeClass("rotate45_225");
 				$(".leftcircle").removeClass("rotate45_225");
+				clearTimeout(render.time);
+				clearTimeout(render.timer);
 			}
 		});
 	},

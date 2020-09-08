@@ -396,7 +396,7 @@ body {
 	cursor: pointer;
 }
 
-.r_lists .swiper-slide.active {
+.r_lists .swiper-slide-active {
 	background-color: hsla(0, 0%, 100%, .06);
 	color: #bec0d0;
 }
@@ -413,9 +413,9 @@ body {
 	text-overflow: ellipsis;
 }
 
-.r_lists .swiper-slide.active .relation-name,
-.r_lists .swiper-slide.active .relation-a,
-.r_lists .swiper-slide.active .relation-b {
+.r_lists .swiper-slide-active .relation-name,
+.r_lists .swiper-slide-active .relation-a,
+.r_lists .swiper-slide-active .relation-b {
 	color: #ff7963;
 }
 
@@ -430,7 +430,7 @@ body {
 	background: #000;
 }
 
-.r_lists .swiper-slide.active .circle {
+.r_lists .swiper-slide-active .circle {
 	border: 2px solid #ff7963;
 	box-shadow: 0 0 6px 2px #ff7963;
 }
@@ -556,6 +556,11 @@ body {
 	z-index: 100;
 	left: 420px;
 	bottom: 18px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 
 .switch-text {
@@ -579,7 +584,7 @@ body {
 	background: #78ffd3;
 	box-shadow: 0 0 4px 0 rgba(93, 255, 228, .83);
 	border: none;
-	transition: all .3s linear 0s;
+	transition: all .2s linear 0s;
 }
 
 .switch-btn {
@@ -593,7 +598,7 @@ body {
 	border-radius: 100%;
 	transition: left .3s;
 	float: right;
-	transition: all .3s linear 0s;
+	transition: all .2s linear 0s;
 }
 
 .switch-btn-container.close {
