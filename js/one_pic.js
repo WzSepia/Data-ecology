@@ -42,6 +42,10 @@ var render = {
 		dataIndex: null,
 		echarts_name: null,
 	},
+	app: {
+		currentIndex: -1
+	},
+	dataLen: null
 }
 
 /**
@@ -68,11 +72,12 @@ var option = {
 	series: [{
 		type: 'graph',
 		layout: 'force',
-		draggable: true,
+		draggable: false,
 		roam: true,
 		hoverAnimation: true,
 		focusNodeAdjacency: true,
 		categories: categories,
+		symbol: "circle",
 		symbolSize: 55,
 		edgeSymbol: ['', 'arrow'],
 		edgeSymbolSize: 6,
@@ -92,23 +97,8 @@ var option = {
 			borderRadius: 4,
 			backgroundColor: '#ffffff',
 			formatter: (params) => {
-				//console.log(params.data.name);
 				return params.data.name ? params.data.name : "关系";
-			}, //['{a|{c}}'].join('\n'),
-			// rich: {
-			// 	a: {
-			// 		color: "#000000",
-			// 		fontSize: 12,
-			// 		fontWeight: "bold",
-			// 		verticalAlign: "middle",
-			// 		lineHeight: 1,
-			// 		padding: 10,
-			// 		borderColor: "#ffffff",
-			// 		borderWidth: 0,
-			// 		borderRadius: 4,
-			// 		backgroundColor: '#ffffff',
-			// 	}
-			// }
+			},
 		},
 		//图形样式。
 		itemStyle: {
@@ -149,7 +139,7 @@ var option = {
 		emphasis: {
 			lineStyle: {
 				color: "",
-				width: 4
+				width: 3
 			}
 		}
 	}]
@@ -166,9 +156,11 @@ var methods = {
 		render.myChart.setOption(option);
 		render.myChart.hideLoading();
 		//绘制关系列表	
-		methods.relationLists(relations_lists_data)
+		methods.relationLists(data.nodes);
 		//图表事件
 		methods.myChartsClick();
+		//图表当前选中了什么
+		methods.myChartsBrushSelected();
 		//图表父元素事件
 		methods.canvasPreDivClick();
 		//关系列表事件（显示隐藏）
@@ -317,32 +309,36 @@ var methods = {
 			loop: true,
 			loopedSlides: 5,
 			mousewheel: true,
-			autoplay: false,
-			// scrollbar: {
-			// 	el: '.swiper-scrollbar',
-			// },
-			// {
-			// 	autoplay: false,
-			// 	delay: 3000,
-			// 	stopOnLastSlide: false,
-			// 	disableOnInteraction: true,
-			// },
-			//virtual: true,//虚拟slide
+			autoplay: false
 		});
 		//swiper从当前slide开始过渡到另一个slide时执行
 		dom.swiper.on("slideChangeTransitionStart", function() {
 			let _that = this;
-			//关系高亮
+			
+			console.log("option.series[0]",option.series[0]);
+			
+			render.dataLen = option.series[0].data.length;
+			// 取消之前高亮的图形
+			render.myChart.dispatchAction({
+				type: 'downplay',
+				seriesIndex: 0,
+				dataIndex: _that.activeIndex - 5
+			});
+			render.app.currentIndex = (render.app.currentIndex + 1) % render.dataLen;
+			// 高亮当前图形
 			render.myChart.dispatchAction({
 				type: 'focusNodeAdjacency',
-				// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
-				seriesId: "series00",
 				seriesIndex: 0,
-				seriesName: "series0",
-				// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
-				dataIndex: _that.activeIndex - 5, //6 - 5
-				//edgeDataIndex: 5
-			})
+				dataIndex: _that.activeIndex - 5 //render.app.currentIndex
+			});
+			// 显示 tooltip
+			render.myChart.dispatchAction({
+				type: 'showTip',
+				seriesIndex: 0,
+				dataIndex: render.app.currentIndex
+			});
+			console.log('计数：', _that.activeIndex);
+
 			//自动播放按钮动画
 			if (dom.swiper.autoplay.running) {
 				$(".rightcircle").addClass("rotate45_225");
@@ -355,7 +351,7 @@ var methods = {
 					clearTimeout(render.time);
 				}, 2999);
 			}
-			console.log(this.activeIndex);
+			//console.log(this);
 		});
 		//添加回调函数或者事件句柄
 		dom.swiper.on("click", function() {
@@ -365,10 +361,11 @@ var methods = {
 			//图形连接高亮
 			render.myChart.dispatchAction({
 				type: 'focusNodeAdjacency',
-				// 使用 seriesId 或 seriesIndex 或 seriesName 来指定 series.
-				seriesId: "series00",
+				// 使用 seriesId 或 seriesIndex 
+				//或 seriesName 来指定 series.
+				//seriesId: "series00",
 				seriesIndex: 0,
-				seriesName: "series0",
+				//seriesName: "series0",
 				// 使用 dataIndex 来指定目标节点，或者使用 edgeDataIndex 来指定目标边。
 				dataIndex: _that.clickedIndex, //6
 				//edgeDataIndex: 5
@@ -464,8 +461,83 @@ var methods = {
 				}
 			}
 			//后续操作
-			console.log(params);
+			console.log("图表添加点击", params);
 			//
+		})
+	},
+	//==========图表当前选中了什么============
+	myChartsBrushSelected() {
+		//图表添加点击
+		render.myChart.on('brushselected', function(params) {
+			console.log("对外通知当前选中了什么", params);
+		})
+	},
+	//=========绘制弹窗====================
+	chartTipTop(data) {
+		console.log(data);
+		render.myChart.setOptions({
+			graphic: [{
+				type: 'group',
+				position: [100, 100],
+				draggable: false,
+				$action: 'replace',
+				width: 380,
+				height: 200,
+				z: 100,
+				children: [{
+						type: 'rect',
+						z: 100,
+						shape: {
+							width: 380,
+							height: 80
+						},
+						style: {
+							fill: '#444850',
+						}
+					},
+					{
+						type: 'text',
+						z: 100,
+						left: "center",
+						top: "5%",
+						style: {
+							fill: '#e8e9f0',
+							text: [
+								'种位 ➡ ️置爱'
+							].join('\n'),
+							font: '14px Microsoft YaHei'
+						}
+					},
+					{
+						type: 'rect',
+						z: 100,
+						left: "center",
+						top: 80,
+						shape: {
+							width: 380,
+							height: 120
+						},
+						style: {
+							fill: '#32363d',
+							stroke: "transparent",
+							lineWidth: 0
+						}
+					},
+					{
+						type: 'text',
+						z: 100,
+						left: "center",
+						top: 120,
+						style: {
+							fill: '#bec0d0',
+							text: [
+								'请求的数据'
+							].join('\n'),
+							font: '14px Microsoft YaHei'
+						}
+					}
+				]
+			}]
 		})
 	},
 	//=========检测图表上的点击事件==========
