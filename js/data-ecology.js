@@ -1,7 +1,7 @@
 /**
  * 数据生态架构
  * wangze
- * 20200903
+ * 20200909
  * */
 
 /**
@@ -166,7 +166,7 @@ var methods = {
 		//关系列表事件（显示隐藏）
 		methods.relationListsBtn();
 	},
-	//============菜单绘制
+	//============菜单绘制===============
 	menu(dom, level, data_3, data_4) {
 		//菜单外围盒子
 		let menu = $(dom);
@@ -268,7 +268,7 @@ var methods = {
 				break;
 		}
 	},
-	//=============菜单列表绘制============
+	//=============菜单列表绘制及联==========
 	relationLists(data) {
 		if (!data) return;
 		let html = '';
@@ -314,16 +314,7 @@ var methods = {
 		//swiper从当前slide开始过渡到另一个slide时执行
 		dom.swiper.on("slideChangeTransitionStart", function() {
 			let _that = this;
-			
-			console.log("option.series[0]",option.series[0]);
-			
 			render.dataLen = option.series[0].data.length;
-			// 取消之前高亮的图形
-			render.myChart.dispatchAction({
-				type: 'downplay',
-				seriesIndex: 0,
-				dataIndex: _that.activeIndex - 5
-			});
 			render.app.currentIndex = (render.app.currentIndex + 1) % render.dataLen;
 			// 高亮当前图形
 			render.myChart.dispatchAction({
@@ -337,7 +328,15 @@ var methods = {
 				seriesIndex: 0,
 				dataIndex: render.app.currentIndex
 			});
-			console.log('计数：', _that.activeIndex);
+			if ((_that.activeIndex - 5) === (render.dataLen)) {
+				// 取消之前高亮的图形
+				render.myChart.dispatchAction({
+					type: 'unfocusNodeAdjacency',
+					seriesIndex: 0,
+					dataIndex: _that.activeIndex - 6
+				});
+			}
+			//console.log('计数：', _that.activeIndex - 5);
 
 			//自动播放按钮动画
 			if (dom.swiper.autoplay.running) {
@@ -461,15 +460,16 @@ var methods = {
 				}
 			}
 			//后续操作
-			console.log("图表添加点击", params);
+			//console.log("图表添加点击", params);
 			//
 		})
 	},
 	//==========图表当前选中了什么============
 	myChartsBrushSelected() {
 		//图表添加点击
-		render.myChart.on('brushselected', function(params) {
-			console.log("对外通知当前选中了什么", params);
+		render.myChart.on('focusnodeadjacency', function(params) {
+			//console.log("对外通知当前选中了什么", params);
+
 		})
 	},
 	//=========绘制弹窗====================
@@ -565,11 +565,11 @@ var methods = {
 		//$.ajax()
 		data.nodes.push({
 			name: "" + Date.now(),
-			category: 2
+			category: Date.now()
 		});
 		data.links.push({
-			target: render.current.echarts_name,
 			source: "" + Date.now(),
+			target: render.current.echarts_name,
 			name: "qwer"
 		});
 		categories.push({
